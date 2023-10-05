@@ -13,9 +13,27 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    standaloneNashorn
+}
+
 dependencies {
+    // https://mvnrepository.com/artifact/org.openjdk.nashorn/nashorn-core
+    standaloneNashorn group: 'org.openjdk.nashorn', name: 'nashorn-core', version: '15.4'
+}
+
+task copyToLib(type: Copy) {
+    from configurations.standaloneNashorn
+    into "$buildDir/nashorn"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.Main'
+    }
 }
