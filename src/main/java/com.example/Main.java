@@ -19,8 +19,7 @@ public class Main {
       //docs: https://cr.openjdk.org/~sundar/8015969/webrev.00/raw_files/new/docs/JavaScriptingProgrammersGuide.html
 
       //execute script directly:
-      String script = "function() { print('Hello, World!'); return 1; }";
-//      String script = "print('Hello, World!')";
+      String script = "print('Hello, World!')";
       Object res = engine.eval(script);
       System.out.println("res: " + res);
       System.out.println("res: " + res.getClass());
@@ -31,9 +30,10 @@ public class Main {
       //invoke scripting method
       System.out.println("is compilable:" + (engine instanceof Compilable));
       //compile
+      script = "function() { print('Hello, World!'); return 1; }";//the script is a function, nothing gets executed when run the script
       CompiledScript compiledScript = ((Compilable) engine).compile(script);
       Object finalScript = compiledScript.eval();
-      res = ((Invocable) engine).invokeMethod(finalScript, "call", finalScript);
+      res = ((Invocable) engine).invokeMethod(finalScript, "call", finalScript);//this triggers the script execution
       System.out.println("response: " + res);
       System.out.println("response: " + res.getClass());
 
