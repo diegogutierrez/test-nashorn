@@ -1,5 +1,8 @@
 package com.example;
 
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -13,9 +16,31 @@ public class Main {
     System.out.println(engine.getClass());
     // evaluate JavaScript statement
     try {
-      engine.eval("print('Hello, World!');");
+      //docs: https://cr.openjdk.org/~sundar/8015969/webrev.00/raw_files/new/docs/JavaScriptingProgrammersGuide.html
+
+      //execute script directly:
+      String script = "function() { print('Hello, World!'); return 1; }";
+//      String script = "print('Hello, World!')";
+      Object res = engine.eval(script);
+      System.out.println("res: " + res);
+      System.out.println("res: " + res.getClass());
+
+      System.out.println("========");
+
+
+      //invoke scripting method
+      System.out.println("is compilable:" + (engine instanceof Compilable));
+      //compile
+      CompiledScript compiledScript = ((Compilable) engine).compile(script);
+      Object finalScript = compiledScript.eval();
+      res = ((Invocable) engine).invokeMethod(finalScript, "call", finalScript);
+      System.out.println("response: " + res);
+      System.out.println("response: " + res.getClass());
+
     } catch (final ScriptException se) {
       se.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
     }
   }
 }

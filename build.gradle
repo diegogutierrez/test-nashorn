@@ -24,7 +24,7 @@ dependencies {
 
 task copyToLib(type: Copy) {
     from configurations.standaloneNashorn
-    into "$buildDir/nashorn"
+    into "nashorn"
 }
 
 tasks.named('test') {
