@@ -22,7 +22,6 @@ public class Main {
       String script = "print('Hello, World!')";
       Object res = engine.eval(script);
       System.out.println("res: " + res);
-      System.out.println("res: " + res.getClass());
 
       System.out.println("========");
 
